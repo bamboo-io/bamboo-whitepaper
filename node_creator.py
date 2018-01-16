@@ -62,6 +62,41 @@ def hash_data(identifier, balance, nonce):
 
 def main():
 
+    # Nonces for use in the whitepaper
+    test_users = [
+        "tom@bambooteam.com",
+        "peter@bambooteam.com",
+        "alex@bambooteam.com",
+        "simone@bambooteam.com"]
+
+    test_balances = [
+        6.853,
+        27.431,
+        545.972,
+        0.563
+    ]
+
+    for user in test_users:
+        print(generate_nonce())
+
+    toms_nonce    = 0.22920468032703945
+    peters_nonce  = 0.682051988865186
+    alexs_nonce   = 0.20229544353438245
+    simones_nonce = 0.31631206564466663
+
+    toms_hash = hash_data(test_users[0], test_balances[0], toms_nonce)
+    peters_hash = hash_data(test_users[1], test_balances[1], peters_nonce)
+    alexs_hash = hash_data(test_users[2], test_balances[2], alexs_nonce)
+    simones_hash = hash_data(test_users[3], test_balances[3], simones_nonce)
+
+    print(toms_hash)
+    print(peters_hash)
+    print(alexs_hash)
+    print(simones_hash)
+
+    ################################################
+
+    # Working example
     identifier  = "tom@bambooteam.com"
     balance     = 10
     nonce       = generate_nonce()
