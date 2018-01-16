@@ -14,6 +14,7 @@ and may be used in the future.
 import os
 import base64
 import random
+import sha3
 
 # Generate a basic PRN for use as a nonce
 def generate_nonce(length = 8):
@@ -32,4 +33,22 @@ def gen_nonce(length):
       b64len+=3
    return string[0:b64len].decode()
 
-print(str(generate_nonce(8)))
+# Hashes the given data using SHA3
+def hash_data(data):
+
+    hashed_data = sha3.sha3_224(data.encode('utf-8')).hexdigest()
+
+    return hashed_data
+
+def main():
+
+    indentifier = "tom@getbamboo.io"
+    balance     = 10
+    nonce       = generate_nonce()
+
+    data = indentifier + str(balance) + str(nonce)
+
+    print(hash_data(data))
+
+if __name__=="__main__":
+    main()
