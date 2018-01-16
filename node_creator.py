@@ -60,6 +60,18 @@ def hash_data(identifier, balance, nonce):
 
     return hashed_data
 
+# Hashes the two children hashes to get the parent hash
+def hash_children(left_balance, right_balance, left_hash, right_hash):
+
+    balance = left_balance + right_balance
+
+    data = str(balance) + left_hash + right_hash
+
+    # Encode the data in bytes before hashing with SHA512
+    hashed_data = hashlib.sha3_512(data.encode('utf-8')).hexdigest()
+
+    return [balance, hashed_data]
+
 def main():
 
     # Nonces for use in the whitepaper
@@ -76,23 +88,51 @@ def main():
         0.563
     ]
 
-    for user in test_users:
-        print(generate_nonce())
+    #for user in test_users:
+        #print(generate_nonce())
 
     toms_nonce    = 0.22920468032703945
     peters_nonce  = 0.682051988865186
     alexs_nonce   = 0.20229544353438245
     simones_nonce = 0.31631206564466663
 
-    toms_hash = hash_data(test_users[0], test_balances[0], toms_nonce)
-    peters_hash = hash_data(test_users[1], test_balances[1], peters_nonce)
-    alexs_hash = hash_data(test_users[2], test_balances[2], alexs_nonce)
+    toms_hash    = hash_data(test_users[0], test_balances[0], toms_nonce)
+    peters_hash  = hash_data(test_users[1], test_balances[1], peters_nonce)
+    alexs_hash   = hash_data(test_users[2], test_balances[2], alexs_nonce)
     simones_hash = hash_data(test_users[3], test_balances[3], simones_nonce)
 
-    print(toms_hash)
-    print(peters_hash)
-    print(alexs_hash)
-    print(simones_hash)
+    tom_and_peter = hash_children(
+        test_balances[0],
+        test_balances[1],
+        toms_hash,
+        peters_hash
+    )
+
+    print("Parent Node")
+    print("Balance:",tom_and_peter[0])
+    print("Hash:",tom_and_peter[1])
+
+    alex_and_simone = hash_children(
+        test_balances[2],
+        test_balances[3],
+        alexs_hash,
+        simones_hash
+    )
+
+    print("Parent Node")
+    print("Balance:",alex_and_simone[0])
+    print("Hash:",alex_and_simone[1])
+
+    total = hash_children(
+        tom_and_peter[0],
+        alex_and_simone[0],
+        tom_and_peter[1],
+        alex_and_simone[1]
+    )
+
+    print("Root Node")
+    print("Balance:",total[0])
+    print("Hash:",total[1])
 
     ################################################
 
@@ -103,9 +143,9 @@ def main():
 
     hashed_data = hash_data(identifier, balance, nonce)
 
-    print("Node")
-    print("Balance:",balance)
-    print("Hash:",hashed_data)
+    #print("Node")
+    #print("Balance:",balance)
+    #print("Hash:",hashed_data)
 
 if __name__=="__main__":
     main()
