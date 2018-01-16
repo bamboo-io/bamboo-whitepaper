@@ -12,12 +12,13 @@ and may be used in the future.
 """
 
 import os
-import random
 import base64
+import random
 
 # Generate a basic PRN for use as a nonce
 def generate_nonce(length = 8):
-    return os.urandom(length)
+    #return os.urandom(length)
+    return random.SystemRandom().random()
 
 # Generates a random string of bytes, base64 encoded
 def gen_nonce(length):
