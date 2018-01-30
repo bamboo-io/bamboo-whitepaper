@@ -91,6 +91,7 @@ def main():
     #for user in test_users:
         #print(generate_nonce())
 
+    # These have been generated from the above function
     toms_nonce    = 0.22920468032703945
     peters_nonce  = 0.682051988865186
     alexs_nonce   = 0.20229544353438245
